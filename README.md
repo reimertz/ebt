@@ -1,4 +1,4 @@
-# EBT Arduino Server
+# Sensor Server
 
 This project establishes a server to interface with Arduino sensors through Johnny-Five, Express, and Socket.IO, facilitating real-time sensor data visualization and manual sensor value adjustments via a web interface. It also integrates with Touch Designer for dynamic visualizations based on Arduino sensor data, utilizing Socket.IO for instant communication between the server and Touch Designer.
 
