@@ -11,8 +11,6 @@ const app = express()
 const server = createServer(app)
 const io = SocketIO(server)
 
-const FREQ = 500
-
 let SENSORS = [
   {
     name: 'thermometer_1',
@@ -21,8 +19,9 @@ let SENSORS = [
       new Thermometer({
         controller: 'TMP36',
         pin: 'A0',
-        freq: FREQ,
+        freq: 1000,
       }),
+    getValue: (sensor) => sensor.celsius,
     emulation: {
       values: { cold: 10, room: 20, touch: 36, warm: 50 },
       value: 20,
@@ -33,11 +32,12 @@ let SENSORS = [
     init: () =>
       new Sensor({
         pin: 'A1',
-        freq: FREQ,
+        freq: 100,
       }),
+    getValue: (sensor) => sensor.value,
     emulation: {
       values: { dark: 50, room: 400, sunlit_room: 980, direct_sun: 1015 },
-      value: 400,
+      value: 500,
     },
   },
 ]
@@ -99,9 +99,7 @@ if (process.env.EMULATE !== 'true') {
     SENSORS.forEach((sensor) => {
       const sensorInstance = sensor.init()
       sensorInstance.on('change', () => {
-        const data = {}
-        data[`${sensor.name}`] = sensorInstance.value
-        io.emit('sensorUpdates', JSON.stringify(data))
+        io.emit('sensorUpdates', JSON.stringify({ [sensor.name]: sensor.getValue(sensorInstance) }))
       })
     })
   })
