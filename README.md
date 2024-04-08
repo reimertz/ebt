@@ -32,18 +32,25 @@ npm start
 
 This "Normal Mode" requires the Arduino board to be connected and properly configured as described in the installation steps.
 
+If everything works correctly, you should see sensor values updating in Touch Designer.
+
 
 #### Emulation Mode
 
-For situations where an Arduino board is not available or for testing purposes without hardware, the server can be run in "Emulation Mode". This mode simulates sensor values, allowing the server to function without a physical Arduino connection. Activate this mode by setting the `EMULATE` environment variable to `true` before starting the server:
+![Demo of EBT Arduino Server](/arduino-server/demo.png)
+
+For situations where an Arduino board is not available or for testing purposes without hardware, the server can be run in "Emulation Mode". This mode simulates sensor values, allowing the server to function without a physical Arduino connection. To run the Emulation mode, run:
 
 ```
 npm run emulation
 ```
 
-### Interacting with the Server and Touch Designer
 
-With the server operational, access the sensor value editor web interface at `http://localhost:3000`. This interface displays real-time sensor data and allows manual updates in Emulation Mode. Sensor data events are emitted using Socket.IO, facilitating real-time data visualization in Touch Designer for interactive installations and performances.
+With emulation enabled, access the sensor value editor web interface at `http://localhost:3000`.
+
+### Arduino Server and Touch Designer
+
+ Sensor data events are emitted using Socket.IO, facilitating real-time data visualization in Touch Designer for interactive installations and performances.
 
 ## Dependencies
 
@@ -54,3 +61,5 @@ With the server operational, access the sensor value editor web interface at `ht
 ## Node Version
 
 Node.js version 18.x or higher is required for this project.
+
+
