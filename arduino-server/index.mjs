@@ -43,7 +43,6 @@ let SENSORS = [
 ]
 
 app.use(express.json()) // Middleware to parse JSON bodies
-app.use(express.static('public')) // Serve static files
 
 app.get('/', (req, res) => {
   let page = ''
