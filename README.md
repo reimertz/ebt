@@ -37,16 +37,9 @@ This "Normal Mode" requires the Arduino board to be connected and properly confi
 
 For situations where an Arduino board is not available or for testing purposes without hardware, the server can be run in "Emulation Mode". This mode simulates sensor values, allowing the server to function without a physical Arduino connection. Activate this mode by setting the `EMULATE` environment variable to `true` before starting the server:
 
-- On Unix-based systems:
-  ```
-  EMULATE=true npm start
-  ```
-
-- On Windows:
-  ```
-  set EMULATE=true
-  npm start
-  ```
+```
+npm run emulation
+```
 
 ### Interacting with the Server and Touch Designer
 
