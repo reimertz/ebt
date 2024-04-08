@@ -58,8 +58,15 @@ With emulation enabled, access the sensor value editor web interface at `http://
 - **Express**: A Node.js web application framework for building web and mobile applications.
 - **Socket.IO**: Supports real-time, bidirectional, and event-based communication between web clients and servers. Essential for Touch Designer integration.
 
-## Node Version
 
-Node.js version 18.x or higher is required for this project.
+# Touch Designer
 
+To visualize the sensor data in Touch Designer, you need to open the `touch-designer/EBT.TouchDesigner.toe` file. Ensure you are using Touch Designer release 2023.11510 or newer for full compatibility.
+
+1. Launch Touch Designer.
+2. Navigate to `File` > `Open...` or press `Ctrl+O` (Windows) / `Cmd+O` (Mac).
+3. Browse to the location of the `EBT.TouchDesigner.toe` file within your project directory.
+4. Select the file and click `Open`.
+
+Once opened, the project will automatically start receiving and visualizing data from the Arduino server, provided it is running and configured correctly as per the previous steps.
 
