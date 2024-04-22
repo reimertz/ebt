@@ -4,12 +4,15 @@ import SocketIO from 'socket.io'
 import Johhny5 from 'johnny-five'
 
 import { pageHtml } from './debug-template.mjs'
+import { parseDHTData } from './utils.mjs'
 
 const { Board, Thermometer, Sensor } = Johhny5
 
 const app = express()
 const server = createServer(app)
-const io = SocketIO(server)
+const io = SocketIO(server, {
+  llowEIO3: true,
+})
 
 let SENSORS = [
   {
@@ -37,7 +40,51 @@ let SENSORS = [
     getValue: (sensor) => sensor.value,
     emulation: {
       values: { dark: 50, room: 400, sunlit_room: 980, direct_sun: 1015 },
-      value: 500,
+      value: 1000,
+    },
+  },
+  {
+    name: 'humiditysensor_1',
+    init: function (board) {
+      // setup listener
+
+      board.sysexResponse(0x74, (dhtData) => {
+        const { humidity } = parseDHTData(dhtData)
+
+        this.value = humidity
+
+        if (this.callback) {
+          this.callback(this.value)
+        }
+      })
+
+      //trigger sensor reading every 1.5 seconds
+      setInterval(() => {
+        const attachCommand = [
+          0x74, // DHTSENSOR_DATA
+          0x01, // DHTSENSOR_ATTACH_DHT11 (change to 0x02 for DHT22)
+          7, // Pin
+          0, // Blocking when reading sensor
+          1000, // pooling interval
+        ]
+        board.sysexCommand(attachCommand)
+      }, 1500)
+
+      return this
+    },
+    on: function (_, callback) {
+      this.callback = callback
+    },
+    getValue: (sensor) => sensor.value,
+    emulation: {
+      values: {
+        very_dry: 10,
+        dry: 35,
+        regular: 50,
+        humid: 75,
+        very_humid: 95,
+      },
+      value: 50,
     },
   },
 ]
@@ -61,14 +108,21 @@ server.listen(3000, () => {
 })
 
 io.on('connection', (socket) => {
-  console.log('a user connected; ')
-
+  console.log('new user')
   if (process.env.EMULATE === 'true') {
     SENSORS.forEach((sensor) => {
       console.log('sensorUpdates', JSON.stringify({ [sensor.name]: sensor.emulation.value }))
       io.emit('sensorUpdates', JSON.stringify({ [sensor.name]: sensor.emulation.value }))
     })
   }
+})
+
+io.on('leds', (data) => {
+  console.log('123123', data)
+})
+
+io.on('sensorUpdates', (data) => {
+  console.log('123123', data)
 })
 
 // Endpoint to update sensor values manually
@@ -97,7 +151,7 @@ if (process.env.EMULATE !== 'true') {
 
   board.on('ready', () => {
     SENSORS.forEach((sensor) => {
-      const sensorInstance = sensor.init()
+      const sensorInstance = sensor.init(board)
       sensorInstance.on('change', () => {
         io.emit('sensorUpdates', JSON.stringify({ [sensor.name]: sensor.getValue(sensorInstance) }))
       })
