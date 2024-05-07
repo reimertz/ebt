@@ -87,6 +87,17 @@ let SENSORS = [
       value: 50,
     },
   },
+  {
+    name: 'touchsensor_1',
+    getValue: (sensor) => sensor.value,
+    emulation: {
+      values: {
+        no_touch: 0,
+        touch: 1000,
+      },
+      value: 0,
+    },
+  },
 ]
 
 app.use(express.json()) // Middleware to parse JSON bodies
@@ -151,6 +162,7 @@ if (process.env.EMULATE !== 'true') {
 
   board.on('ready', () => {
     SENSORS.forEach((sensor) => {
+      if (!sensor.init) return
       const sensorInstance = sensor.init(board)
       sensorInstance.on('change', () => {
         io.emit('sensorUpdates', JSON.stringify({ [sensor.name]: sensor.getValue(sensorInstance) }))

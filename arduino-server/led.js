@@ -1,15 +1,28 @@
 // This example shows how to use node-pixel using Johnny Five as the
 // hook for the board.
+const { io } = require('socket.io-client')
 const five = require('johnny-five')
 const pixel = require('node-pixel')
 
 const opts = {}
-opts.port = process.argv[2] || '/dev/tty.usbmodem11101'
+opts.port = process.argv[2] || '/dev/tty.usbmodem11401'
 
 const board = new five.Board(opts)
 let strip = null
 
 const fps = 10 // how many frames per second do you want to try?
+
+// const socket = io('ws://localhost:3000')
+
+// // client-side
+// socket.on('connect', () => {
+//   console.log('connected to websocket server')
+// })
+
+// socket.on('rgb', (data) => {
+//   console.log('got rgb led values')
+//   cobsole.log(data)
+// })
 
 board.on('ready', function () {
   console.log('Board ready, lets add light')
