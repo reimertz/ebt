@@ -11,7 +11,7 @@ const { Board, Thermometer, Sensor } = Johhny5
 const app = express()
 const server = createServer(app)
 const io = SocketIO(server, {
-  llowEIO3: true,
+  allowEIO3: true,
 })
 
 let SENSORS = [
@@ -119,21 +119,17 @@ server.listen(3000, () => {
 })
 
 io.on('connection', (socket) => {
-  console.log('new user')
+  socket.on('touch-designer-leds', (data) => {
+    console.log('touch-designer-leds', data)
+    io.emit('leds', data)
+  })
+
   if (process.env.EMULATE === 'true') {
     SENSORS.forEach((sensor) => {
       console.log('sensorUpdates', JSON.stringify({ [sensor.name]: sensor.emulation.value }))
       io.emit('sensorUpdates', JSON.stringify({ [sensor.name]: sensor.emulation.value }))
     })
   }
-})
-
-io.on('leds', (data) => {
-  console.log('123123', data)
-})
-
-io.on('sensorUpdates', (data) => {
-  console.log('123123', data)
 })
 
 // Endpoint to update sensor values manually
@@ -144,7 +140,6 @@ app.post('/update-sensor', (req, res) => {
   if (sensor) {
     sensor.emulation.value = value
 
-    console.log(SENSORS)
     io.emit(
       'sensorUpdates',
       JSON.stringify({
