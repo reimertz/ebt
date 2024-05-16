@@ -1,6 +1,6 @@
 # Everything is becoming Techno
 
-This is the full project integration for our Art Installation - Everything is Becoming Techno. 
+This is the full project integration for our Art Installation - Everything is Becoming Techno.
 
 Please read the whole readme and make sure to follow the Touch Designer and Ableton Live Integration to enable full interaction between each platform.
 
@@ -65,6 +65,31 @@ With emulation enabled, access the sensor value editor web interface at `http://
 - **Socket.IO**: Supports real-time, bidirectional, and event-based communication between web clients and servers. Essential for Touch Designer integration.
 
 
+### Ports
+
+
+what ports shows up depends on which usb port you connect it to your mac but if you use the usb hub and have it connected to left side, upper most usb-c port, below values should be correct.
+
+Here is in an image of how the box should be connected to the usb hub.
+
+![USB Hub Setup](/resources/UsbHub.jpg)
+
+#### Using a active extension cable + usb hub
+
+- LED - /dev/tty.usbmodem141201
+- Humidity + light - /dev/tty.usbmodem141301
+- Capacitive Sensor - /dev/tty.usbmodem141401
+
+#### Using a usb hub
+
+- LED - /dev/tty.usbmodem1201
+- Humidity + light - /dev/tty.usbmodem1301
+- Capacitive Sensor - /dev/tty.usbmodem1401
+
+
+
+
+
 ## Touch Designer Integration
 
 To visualize the sensor data in Touch Designer, you need to open the `touch-designer/EBT.TouchDesigner.toe` file. Ensure you are using Touch Designer release 2023.11510 or newer for full compatibility.
@@ -88,7 +113,7 @@ Once opened, the project will automatically start receiving and visualizing data
 8. Once done, Open the Ableton Live project
 9. Once opened, go to Ableton Live -> Settings -> Midi and Sync tab and add Touch Designer as a source in one of the empty drop down.
 10. Play the track
-11. If you have Touch Designer running, sensor values should change the bass track volume. 
+11. If you have Touch Designer running, sensor values should change the bass track volume.
 
 
 

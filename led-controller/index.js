@@ -5,12 +5,12 @@ const five = require('johnny-five')
 const pixel = require('node-pixel')
 
 const opts = {}
-opts.port = process.argv[2] || '/dev/tty.usbmodem1101'
+opts.port = process.argv[2] || '/dev/tty.usbmodem141201' // extension cable + adapter
 
 const board = new five.Board(opts)
 let strip = null
 
-const fps = 3 // how many frames per second do you want to try?
+const fps = 2.1667 // how many frames per second do you want to try?
 
 const socket = io('ws://localhost:3000')
 
@@ -32,7 +32,8 @@ socket.on('leds', (data) => {
 })
 
 socket.on('sensorUpdates', (json) => {
-  console.log('got sensorUpdates values')
+  const data = JSON.parse(json)
+  //console.log('got sensorUpdates values')
 
   sensors = {
     ...sensors,
@@ -45,7 +46,7 @@ socket.on('sensorUpdates', (json) => {
     current_color = 'blue'
   } else if (sensors.humiditysensor_1 > 50) {
     current_color = 'cyan'
-  } else if (sensors.photoresistor_1 > 1000) {
+  } else if (sensors.photoresistor_1 > 950) {
     current_color = 'yellow'
   } else if (sensors.photoresistor_1 > 500) {
     current_color = 'orange'
@@ -80,16 +81,12 @@ board.on('ready', function () {
       if (fade_up) {
         // fading upwards, if we hit the top then turn around
         // and go back down again.
-        fade_level += steps
-        if (fade_level > 10) {
-          fade_up = false
-        }
+
+        fade_level = 25
+        fade_up = false
       } else {
-        fade_level -= steps
-        if (fade_level < 5) {
-          fade_up = true
-          fade_level = 6
-        }
+        fade_level = 5
+        fade_up = true
       }
 
       let hc = ''

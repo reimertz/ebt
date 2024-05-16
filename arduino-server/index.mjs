@@ -153,7 +153,9 @@ app.post('/update-sensor', (req, res) => {
 })
 
 if (process.env.EMULATE !== 'true') {
-  const board = new Board()
+  const board = new Board({
+    port: '/dev/tty.usbmodem141301', // extension cable
+  })
 
   board.on('ready', () => {
     SENSORS.forEach((sensor) => {
