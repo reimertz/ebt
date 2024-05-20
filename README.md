@@ -67,7 +67,6 @@ With emulation enabled, access the sensor value editor web interface at `http://
 
 ### Ports
 
-
 what ports shows up depends on which usb port you connect it to your mac but if you use the usb hub and have it connected to left side, upper most usb-c port, below values should be correct.
 
 Here is in an image of how the box should be connected to the usb hub.
@@ -114,6 +113,15 @@ Once opened, the project will automatically start receiving and visualizing data
 9. Once opened, go to Ableton Live -> Settings -> Midi and Sync tab and add Touch Designer as a source in one of the empty drop down.
 10. Play the track
 11. If you have Touch Designer running, sensor values should change the bass track volume.
+
+
+
+
+### Random stuff
+
+#### Ambient background track
+
+Use this [ambient ljungle sound](https://www.youtube.com/watch?v=nZUMdnky11E) as a background track opened in a browser tab at 25% to create a great vibe inside the tent.
 
 
 
